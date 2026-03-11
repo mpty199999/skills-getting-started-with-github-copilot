@@ -74,6 +74,42 @@ activities = {
         "schedule": "Thursdays, 3:30 PM - 5:00 PM",
         "max_participants": 12,
         "participants": ["jessica@mergington.edu"]
+    },
+    "Soccer Team": {
+        "description": "Competitive soccer team for students of all skill levels",
+        "schedule": "Tuesdays and Thursdays, 4:00 PM - 5:30 PM",
+        "max_participants": 20,
+        "participants": ["marcus@mergington.edu"]
+    },
+    "Volleyball Club": {
+        "description": "Learn and play recreational volleyball with teammates",
+        "schedule": "Mondays and Wednesdays, 3:30 PM - 4:30 PM",
+        "max_participants": 14,
+        "participants": ["sarah@mergington.edu", "tyler@mergington.edu"]
+    },
+    "Music Band": {
+        "description": "Play instruments and perform in school concerts and events",
+        "schedule": "Tuesdays and Fridays, 3:30 PM - 5:00 PM",
+        "max_participants": 22,
+        "participants": ["kevin@mergington.edu"]
+    },
+    "Photography Club": {
+        "description": "Learn photography techniques and showcase creative work",
+        "schedule": "Thursdays, 4:00 PM - 5:00 PM",
+        "max_participants": 15,
+        "participants": ["hannah@mergington.edu", "jacob@mergington.edu"]
+    },
+    "Robotics Club": {
+        "description": "Design and build robots for competitions and demonstrations",
+        "schedule": "Saturdays, 1:00 PM - 3:00 PM",
+        "max_participants": 18,
+        "participants": ["chris@mergington.edu"]
+    },
+    "Model UN": {
+        "description": "Represent countries and debate global issues at conferences",
+        "schedule": "Wednesdays, 3:30 PM - 4:30 PM",
+        "max_participants": 20,
+        "participants": ["isabella@mergington.edu", "andrew@mergington.edu"]
     }
 }
 
