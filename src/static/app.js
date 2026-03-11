@@ -25,6 +25,15 @@ document.addEventListener("DOMContentLoaded", () => {
           <p>${details.description}</p>
           <p><strong>Schedule:</strong> ${details.schedule}</p>
           <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
+          <p><strong>Participants:</strong></p>
+          <ul class="participants-list">
+            ${details.participants.map(email => `
+              <li>
+                <span class="participant-email">${email}</span>
+                <button class="remove-btn" data-email="${email}" data-activity="${name}" title="Unregister">&times;</button>
+              </li>
+            `).join('')}
+          </ul>
         `;
 
         activitiesList.appendChild(activityCard);
@@ -34,11 +43,44 @@ document.addEventListener("DOMContentLoaded", () => {
         option.value = name;
         option.textContent = name;
         activitySelect.appendChild(option);
+
+        // attach listener for removal buttons after card added
+        const removeButtons = activityCard.querySelectorAll('.remove-btn');
+        removeButtons.forEach(btn => {
+          btn.addEventListener('click', async (e) => {
+            const email = e.currentTarget.dataset.email;
+            const activityName = e.currentTarget.dataset.activity;
+            try {
+              const resp = await fetch(
+                `/activities/${encodeURIComponent(activityName)}/signup?email=${encodeURIComponent(email)}`,
+                { method: 'DELETE' }
+              );
+              const resJson = await resp.json();
+              if (resp.ok) {
+                showMessage(resJson.message, 'info');
+                fetchActivities();
+              } else {
+                showMessage(resJson.detail || 'Failed to remove', 'error');
+              }
+            } catch (err) {
+              console.error('Error removing participant:', err);
+              showMessage('Failed to remove participant', 'error');
+            }
+          });
+        });
       });
     } catch (error) {
       activitiesList.innerHTML = "<p>Failed to load activities. Please try again later.</p>";
       console.error("Error fetching activities:", error);
     }
+  }
+
+  // Utility for showing temporary messages
+  function showMessage(text, type) {
+    messageDiv.textContent = text;
+    messageDiv.className = type;
+    messageDiv.classList.remove('hidden');
+    setTimeout(() => messageDiv.classList.add('hidden'), 5000);
   }
 
   // Handle form submission
@@ -59,25 +101,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const result = await response.json();
 
       if (response.ok) {
-        messageDiv.textContent = result.message;
-        messageDiv.className = "success";
+        showMessage(result.message, 'success');
         signupForm.reset();
+        fetchActivities();
       } else {
-        messageDiv.textContent = result.detail || "An error occurred";
-        messageDiv.className = "error";
+        showMessage(result.detail || "An error occurred", 'error');
       }
-
-      messageDiv.classList.remove("hidden");
-
-      // Hide message after 5 seconds
-      setTimeout(() => {
-        messageDiv.classList.add("hidden");
-      }, 5000);
     } catch (error) {
-      messageDiv.textContent = "Failed to sign up. Please try again.";
-      messageDiv.className = "error";
-      messageDiv.classList.remove("hidden");
       console.error("Error signing up:", error);
+      showMessage("Failed to sign up. Please try again.", 'error');
     }
   });
 
